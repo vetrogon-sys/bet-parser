@@ -11,7 +11,7 @@ public class StatisticMapper {
         return StatisticDto.builder()
               .id(statistic.getId())
               .dateStart(statistic.getDateStart())
-              .tournament(statistic.getTournament())
+              .tournament(statistic.getTournament().getName())
               .link(statistic.getLink())
               .sportType(statistic.getSportType().getType())
               .build();

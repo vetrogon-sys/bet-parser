@@ -28,8 +28,8 @@ public class StatisticController {
             return ResponseEntity.ok(statisticDtos);
         }
 
-        List<Statistic> fetched = siteParser.fetchAndParseStatistic();
-        return ResponseEntity.ok(statisticService.saveAll(fetched));
+        statisticService.saveAll(siteParser.fetchAndParseStatistic());
+        return ResponseEntity.ok(statisticService.getAll(pageable));
     }
 
 }
