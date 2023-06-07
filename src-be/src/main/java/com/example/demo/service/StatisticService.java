@@ -10,4 +10,6 @@ public interface StatisticService {
 
     List<StatisticDto> getAll(Pageable pageable);
 
+    List<StatisticDto> saveAll(List<Statistic> statistics);
+
 }
