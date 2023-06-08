@@ -56,11 +56,13 @@
 	</dependencies>
 
 	<build>
+		<finalName>src-be</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<imageName>application/src-be:oci</imageName>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
