@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormatSymbols;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -44,6 +45,7 @@ public class BetbonanzaSiteParser implements SiteParser {
         List<Statistic> statistics = new ArrayList<>();
 
         log.info("start fetching tournaments...");
+        LocalTime start = LocalTime.now();
         availableMenus.parallelStream()
               .filter(BetbonanzaSiteParser::isMenuValid)
               .map(BetbonanzaSiteParser::getMenuRequiredAttrib)
@@ -57,6 +59,8 @@ public class BetbonanzaSiteParser implements SiteParser {
                         .map(tournamentsElement -> getStatisticFromTournament(tournamentsElement, currrentSportType))
                         .forEach(statistics::addAll);
               });
+        LocalTime end = LocalTime.now();
+        log.info("was: " + Duration.between(start, end).getSeconds());
         log.info("finish fetching tournaments...");
         return statistics;
     }
@@ -94,7 +98,7 @@ public class BetbonanzaSiteParser implements SiteParser {
 
         final Tournament savedTournament = tournamentService.saveIfNotExist(currTournament);
 
-        return statisticsElements.stream()
+        return statisticsElements.parallelStream()
               .filter(this::isTwoTeams)
               .map(statisticsElement -> buildStatistic(sportType, savedTournament, statisticsElement))
               .toList();
