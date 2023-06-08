@@ -12,5 +12,7 @@ public interface StatisticService {
 
     List<StatisticDto> saveAll(List<Statistic> statistics);
 
+    void deleteAll();
+
     String getStatisticsAsHtml();
 }

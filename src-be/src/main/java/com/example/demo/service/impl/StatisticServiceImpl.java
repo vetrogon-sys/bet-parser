@@ -37,6 +37,11 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     @Override
+    public void deleteAll() {
+        statisticRepository.deleteAll();
+    }
+
+    @Override
     @SneakyThrows
     public String getStatisticsAsHtml() {
         List<StatisticDto> statisticDtos = statisticRepository.findAll().stream()
