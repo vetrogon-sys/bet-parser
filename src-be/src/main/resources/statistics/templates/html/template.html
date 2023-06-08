@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+</head>
+
+<body>
+
+    <table id="statistics-table" style="border: 1px solid #ddd; padding: 8px;">
+        <thead>
+            <tr style="background-color: #4CAF50; color: white;padding-top: 5px; padding-bottom: 5px;">
+                <th style="text-align: left;">id</th>
+                <th style="text-align: left;">tournament</th>
+                <th style="text-align: left;">teams</th>
+                <th style="text-align: left;" class="sort-season sort-season--start" onclick="sortTableByDateTime()">
+                    dateStart</th>
+                <th style="text-align: left;">sportType</th>
+                <th style="text-align: left;">link</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <br id="replace_with_the_content" />
+        </tbody>
+
+    </table>
+
+    <script type="text/javascript">
+        function sortTableByDateTime() {
+            document.querySelector(".sort-season").classList.contains('sort-season--start') ?
+                sortByDate('asc') : sortByDate('desc');
+        }
+
+        function convertDate(date) {
+            var dateTime = date.split('T');
+            var date = dateTime[0].split('-');
+            var time = dateTime[1].split(':');
+            return +(date[2] + date[1] + date[0] + time[0] + time[1]);
+        }
+
+        function sortByDate(direction) {
+            var tbody = document.querySelector("#statistics-table tbody");
+            var rows = [].slice.call(tbody.querySelectorAll("tr"));
+
+            var dateIndex = getDateIndex();
+            if (direction === 'asc') {
+                document.querySelector(".sort-season").classList.remove('sort-season--start');
+                document.querySelector(".sort-season").classList.add('sort-season--end');
+
+                rows.sort((a, b) => convertDate(b.cells[dateIndex].innerHTML) - convertDate(a.cells[dateIndex].innerHTML))
+            } else {
+                document.querySelector(".sort-season").classList.add('sort-season--start');
+                document.querySelector(".sort-season").classList.remove('sort-season--end');
+
+                rows.sort((a, b) => convertDate(a.cells[dateIndex].innerHTML) - convertDate(b.cells[dateIndex].innerHTML))
+            }
+
+            rows.forEach(function (v) {
+                tbody.appendChild(v);
+            });
+        }
+
+        function getDateIndex() {
+            var thead = document.querySelector("#statistics-table thead");
+            var rows = [].slice.call(thead.querySelectorAll("th"));
+
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i].classList.contains('sort-season')) {
+                    return i;
+                }
+            }
+        }
+
+    </script>
+</body>
+
+
+</html>
