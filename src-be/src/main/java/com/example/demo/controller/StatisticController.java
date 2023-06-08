@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -29,7 +30,7 @@ public class StatisticController {
     private final SiteParser siteParser;
 
     @GetMapping
-    public ResponseEntity<List<StatisticDto>> getStatistic(Pageable pageable) {
+    public ResponseEntity<Page<StatisticDto>> getStatistic(Pageable pageable) {
         return ResponseEntity.ok(statisticService.getAll(pageable));
     }
 

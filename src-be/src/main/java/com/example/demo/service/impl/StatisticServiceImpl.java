@@ -8,6 +8,7 @@ import com.example.demo.repository.StatisticRepository;
 import com.example.demo.service.StatisticService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,9 @@ public class StatisticServiceImpl implements StatisticService {
     private final StatisticMapper statisticMapper;
 
     @Override
-    public List<StatisticDto> getAll(Pageable pageable) {
+    public Page<StatisticDto> getAll(Pageable pageable) {
         return statisticRepository.findAll(pageable)
-              .stream()
-              .map(statisticMapper::mapToDto)
-              .toList();
+              .map(statisticMapper::mapToDto);
     }
 
     @Override
