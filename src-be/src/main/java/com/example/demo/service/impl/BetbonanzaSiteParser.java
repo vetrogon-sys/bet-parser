@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -52,7 +53,7 @@ public class BetbonanzaSiteParser implements SiteParser {
                         .map(tournamentsElement -> getStatisticFromTournament(tournamentsElement, currrentSportType))
                         .forEach(statistics::addAll);
               });
-
+        log.info("finish fetching tournaments...");
         return statistics;
     }
 
@@ -78,8 +79,12 @@ public class BetbonanzaSiteParser implements SiteParser {
         String link = getHrefFromElement(tournamentsElement.children().get(0));
         Elements statisticsElements = BetBonanzaParserUtil.getStatisticsElements(link);
 
+        String tournamentName = statisticsElements.get(0).parents().select(".page-header-row").text();
+        if (tournamentName.isEmpty()) {
+            return Collections.emptyList();
+        }
         Tournament currTournament = Tournament.builder()
-              .name(statisticsElements.get(0).parents().select(".page-header-row").text())
+              .name(tournamentName)
               .sportType(sportType)
               .build();
 

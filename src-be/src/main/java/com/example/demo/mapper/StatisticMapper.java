@@ -14,6 +14,7 @@ public class StatisticMapper {
               .tournament(statistic.getTournament().getName())
               .link(statistic.getLink())
               .sportType(statistic.getSportType().getType())
+              .teams(statistic.getTeams())
               .build();
     }
 

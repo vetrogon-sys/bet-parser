@@ -1,16 +1,21 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.StatisticDto;
-import com.example.demo.entity.Statistic;
 import com.example.demo.service.SiteParser;
 import com.example.demo.service.StatisticService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -24,12 +29,22 @@ public class StatisticController {
     @GetMapping
     public ResponseEntity<List<StatisticDto>> getStatistic(Pageable pageable) {
         List<StatisticDto> statisticDtos = statisticService.getAll(pageable);
-        if (statisticDtos.size() > 0) {
+        if (!statisticDtos.isEmpty()) {
             return ResponseEntity.ok(statisticDtos);
         }
 
         statisticService.saveAll(siteParser.fetchAndParseStatistic());
         return ResponseEntity.ok(statisticService.getAll(pageable));
+    }
+
+    @SneakyThrows
+    @GetMapping("/download/html")
+    public ResponseEntity<Resource> downloadStatisticAsHtml() {
+        String statisticsAsHtml = statisticService.getStatisticsAsHtml();
+        return ResponseEntity.ok()
+              .contentType(MediaType.TEXT_HTML)
+              .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"statistics_" + LocalDateTime.now() + ".html\"")
+              .body(new ByteArrayResource(statisticsAsHtml.getBytes()));
     }
 
 }

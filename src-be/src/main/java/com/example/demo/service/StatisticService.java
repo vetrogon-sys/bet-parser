@@ -12,4 +12,5 @@ public interface StatisticService {
 
     List<StatisticDto> saveAll(List<Statistic> statistics);
 
+    String getStatisticsAsHtml();
 }
