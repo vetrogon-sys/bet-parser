@@ -5,7 +5,7 @@ export default function StatisticsController() {
 
     return {
         findAll: function (currentPage, pageSize) {
-            return http().GET(`${baseUri}?page=${currentPage}&size=${pageSize}&sort=id,ASC`)
+            return http().GET(`${baseUri}?page=${currentPage}&size=${pageSize}&sort=dateStart,ASC`)
                 .then(response => {
                     return response;
                 }).catch(err => {
