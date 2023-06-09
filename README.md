@@ -35,7 +35,8 @@ Building aps
 
 By default:
 
-* backend start on port 8080
+* backend start on port 8080 
+  --- to change in file `src-be/src/main/resources/application.properties` change value of `server.port=` 
 * frontend start on port 3000
 
 To change in file `docker-compose.yml` change to necessary ports
