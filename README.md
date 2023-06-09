@@ -37,6 +37,7 @@ By default:
 
 * backend start on port 8080 
   * to change in file `src-be/src/main/resources/application.properties` change value of `server.port=` 
+  * in file `src-fe/src/setupProxy.js` change value of `target: 'http://be:{youNewPortHere}'`
 * frontend start on port 3000
   * to change in file `src-fe/.env` change value of `PORT=`
 
